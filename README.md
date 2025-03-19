@@ -1,6 +1,5 @@
-<<<<<<< HEAD
 # Aganitha_Task
-=======
+
 # PubMed Research Papers Fetcher 🔍📄
 
 [![Python Version](https://img.shields.io/badge/python-3.8%2B-blue.svg)](https://python.org)
