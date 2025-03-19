@@ -1,5 +1,3 @@
-# Aganitha_Task
-
 # PubMed Research Papers Fetcher 🔍📄
 
 [![Python Version](https://img.shields.io/badge/python-3.8%2B-blue.svg)](https://python.org)
@@ -179,6 +177,66 @@ mypy papers_fetcher cli
 Run tests with:
 
 ```
-pytest
+## Comprehensive Verification
+
+### Command List & Validation Steps
+
+```bash
+# Show CLI help
+python -m cli.main --help
+
+# Example Queries
+python -m cli.main "Alzheimer's disease drug development" --email stephendsouza4444@gmail.com --file alzheimers.csv
+python -m cli.main "Cancer immunotherapy biotech" --email stephendsouza4444@gmail.com --file cancer.csv
+python -m cli.main "CRISPR gene editing" --email stephendsouza4444@gmail.com --file crispr.csv
+python -m cli.main "COVID-19 vaccine development" --email stephendsouza4444@gmail.com --file covid.csv
+
+# Debug mode example
+python -m cli.main "Alzheimer's disease drug development" --email stephendsouza4444@gmail.com --debug
+
+# Run tests
+pytest tests/
+
+# Handle rate limiting
+python -m cli.main "Alzheimer's disease drug development" --email stephendsouza4444@gmail.com --debug --max-results 50
 ```
->>>>>>> a41da8c (Initial commit)
+
+### Expected Behavior
+- Fetches 100 papers per query (unless limited)
+- Filters out academic-only papers
+- Preserves biotech/pharma-affiliated authors
+- Generates CSV with columns:
+  - PubmedID, Title, Publication Date
+  - Non-academic Author(s), Company Affiliation(s)
+  - Corresponding Author Email
+
+### CSV Validation
+```python
+import pandas as pd
+
+files = ['alzheimers.csv', 'cancer.csv', 'crispr.csv', 'covid.csv']
+
+for f in files:
+    print(f'\n=== {f} ===')
+    df = pd.read_csv(f)
+    print(df.to_markdown(index=False))
+    print('\nMissing values:', df.isnull().sum().to_dict())
+```
+
+### Testing Framework
+```bash
+# Run all tests with verbose output
+python -m pytest -v tests/
+
+# Expected successful output
+============================= test session starts =============================
+collected 3 items
+
+tests/test_fetch.py ....                                        [PASS ✅]
+tests/test_filter.py ....                                       [PASS ✅]
+tests/test_export.py ....                                       [PASS ✅]
+```
+
+# Check test coverage
+coverage run -m pytest tests/
+coverage report
